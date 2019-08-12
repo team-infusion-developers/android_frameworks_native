@@ -44,6 +44,9 @@ cc_library_shared {
 
         // Don't warn about struct padding
         "-Wno-padded",
+
+        //Don't assign handle to NULL after free is common
+        "-DEGL_NEEDS_HANDLE"
     ],
 
     product_variables: {
