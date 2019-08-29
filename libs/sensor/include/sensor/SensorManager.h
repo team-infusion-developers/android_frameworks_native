@@ -64,7 +64,6 @@ public:
     int createDirectChannel(size_t size, int channelType, const native_handle_t *channelData);
     void destroyDirectChannel(int channelNativeHandle);
     int configureDirectChannel(int channelNativeHandle, int sensorHandle, int rateLevel);
-    int setOperationParameter(int handle, int type, const Vector<float> &floats, const Vector<int32_t> &ints);
 
 private:
     // DeathRecipient interface
@@ -84,8 +83,6 @@ private:
     Vector<Sensor> mSensors;
     sp<IBinder::DeathRecipient> mDeathObserver;
     const String16 mOpPackageName;
-    std::unordered_map<int, sp<ISensorEventConnection>> mDirectConnection;
-    int32_t mDirectConnectionHandle;
 };
 
 // ----------------------------------------------------------------------------

@@ -92,8 +92,6 @@ public:
     bool isDynamicSensor() const;
     bool isDataInjectionSupported() const;
     bool hasAdditionalInfo() const;
-    int32_t getHighestDirectReportRateLevel() const;
-    bool isDirectChannelTypeSupported(int32_t sharedMemType) const;
     int32_t getReportingMode() const;
 
     // Note that after setId() has been called, getUuid() no longer
