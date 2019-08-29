@@ -59,25 +59,6 @@ void GraphicBufferAllocator::dump(String8& result) const
     char buffer[SIZE];
     snprintf(buffer, SIZE, "Allocated buffers:\n");
     result.append(buffer);
-    const size_t c = list.size();
-    for (size_t i=0 ; i<c ; i++) {
-        const alloc_rec_t& rec(list.valueAt(i));
-        if (rec.size) {
-            snprintf(buffer, SIZE, "%10p: %7.2f KiB | %4u (%4u) x %4u | %4u | %8X | 0x%" PRIx64
-                    " | %s\n",
-                    list.keyAt(i), rec.size/1024.0,
-                    rec.width, rec.stride, rec.height, rec.layerCount, rec.format,
-                    rec.usage, rec.requestorName.c_str());
-        } else {
-            snprintf(buffer, SIZE, "%10p: unknown     | %4u (%4u) x %4u | %4u | %8X | 0x%" PRIx64
-                    " | %s\n",
-                    list.keyAt(i),
-                    rec.width, rec.stride, rec.height, rec.layerCount, rec.format,
-                    rec.usage, rec.requestorName.c_str());
-        }
-        result.append(buffer);
-        total += rec.size;
-    }
     snprintf(buffer, SIZE, "Total allocated (estimate): %.2f KB\n", total/1024.0);
     result.append(buffer);
 

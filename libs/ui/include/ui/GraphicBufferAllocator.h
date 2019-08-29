@@ -25,12 +25,12 @@
 
 #include <cutils/native_handle.h>
 
-#include <ui/PixelFormat.h>
-
 #include <utils/Errors.h>
 #include <utils/KeyedVector.h>
 #include <utils/Mutex.h>
 #include <utils/Singleton.h>
+
+#include <hardware/gralloc.h>
 
 namespace android {
 
