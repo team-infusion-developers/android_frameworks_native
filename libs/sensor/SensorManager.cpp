@@ -21,6 +21,7 @@
 #include <stdint.h>
 #include <sys/types.h>
 
+#include <cutils/native_handle.h>
 #include <utils/Errors.h>
 #include <utils/RefBase.h>
 #include <utils/Singleton.h>
@@ -92,7 +93,7 @@ SensorManager& SensorManager::getInstanceForPackage(const String16& packageName)
 }
 
 SensorManager::SensorManager(const String16& opPackageName)
-    : mSensorList(0), mOpPackageName(opPackageName) {
+    : mSensorList(0), mOpPackageName(opPackageName), mDirectConnectionHandle(1) {
     // okay we're not locked here, but it's not needed during construction
     assertStateLocked();
 }
@@ -302,6 +303,16 @@ int SensorManager::configureDirectChannel(int channelNativeHandle, int sensorHan
             static_cast<int>(sensorHandle), static_cast<int>(rateLevel),
             static_cast<int>(ret));
     return ret;
+}
+
+int SensorManager::setOperationParameter(
+        int handle, int type,
+        const Vector<float> &floats, const Vector<int32_t> &ints) {
+    Mutex::Autolock _l(mLock);
+    if (assertStateLocked() != NO_ERROR) {
+        return NO_INIT;
+    }
+    return mSensorServer->setOperationParameter(handle, type, floats, ints);
 }
 
 // ----------------------------------------------------------------------------
