@@ -581,3 +581,24 @@ bool Sensor::unflattenString8(void const*& buffer, size_t& size, String8& output
 
 // ----------------------------------------------------------------------------
 }; // namespace android
+
+extern "C" void _ZN7android13SensorManager19createDirectChannelEjiPK13native_handle(unsigned int, int, native_handle const*)
+{
+}
+
+extern "C" void _ZN7android13SensorManager20destroyDirectChannelEi(int)
+{
+}
+
+extern "C" void _ZN7android13SensorManager22configureDirectChannelEiii(int, int, int)
+{
+}
+
+extern "C" void _ZN7android13SensorManager21setOperationParameterEiRKNS_6VectorIfEERKNS1_IiEE(int, android::Vector<float> const&, android::Vector<int> const&)
+{
+}
+
+extern "C" bool _ZNK7android6Sensor28isDirectChannelTypeSupportedEi(int)
+{
+	return false;
+}

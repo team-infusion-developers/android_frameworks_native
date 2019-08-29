@@ -1,8 +1,6 @@
-subdirs = [
-    "hidl"
-]
-cc_library_shared {
-    name: "libsensorservice",
+//subdirs = [
+//    "hidl"
+//]
 
     srcs: [
         "BatteryService.cpp",
@@ -14,7 +12,6 @@ cc_library_shared {
         "RecentEventLogger.cpp",
         "RotationVectorSensor.cpp",
         "SensorDevice.cpp",
-        "SensorDeviceUtils.cpp",
         "SensorDirectConnection.cpp",
         "SensorEventConnection.cpp",
         "SensorFusion.cpp",
@@ -30,6 +27,7 @@ cc_library_shared {
         "-Wall",
         "-Werror",
         "-Wextra",
+        "-DHARDWARE_FIFO_SENSOR_SERVICE",
         "-fvisibility=hidden"
     ],
 

@@ -20,7 +20,6 @@
 #include <jni.h>
 
 #include <mutex>
-#include <thread>
 
 #include <android/frameworks/sensorservice/1.0/ISensorManager.h>
 #include <android/frameworks/sensorservice/1.0/types.h>
@@ -39,7 +38,6 @@ using ::android::hardware::sensors::V1_0::SensorType;
 using ::android::hardware::hidl_handle;
 using ::android::hardware::hidl_memory;
 using ::android::hardware::Return;
-using ::android::sp;
 
 struct SensorManager final : public ISensorManager {
 
@@ -56,15 +54,13 @@ struct SensorManager final : public ISensorManager {
 private:
     // Block until ::android::SensorManager is initialized.
     ::android::SensorManager& getInternalManager();
-    sp<Looper> getLooper();
+    sp<::android::Looper> getLooper();
 
     std::mutex mInternalManagerMutex;
     ::android::SensorManager* mInternalManager = nullptr; // does not own
-    sp<Looper> mLooper;
 
-    volatile bool mStopThread;
-    std::mutex mThreadMutex; //protects mPollThread
-    std::thread mPollThread;
+    std::mutex mLooperMutex;
+    sp<::android::Looper> mLooper;
 
     JavaVM* mJavaVm;
 };
