@@ -116,10 +116,8 @@ sp<GraphicBuffer> DetachedBuffer::TakeGraphicBuffer() {
       "DetachedBuffer::TakeGraphicBuffer: GraphicBuffer is already detached.");
 
   sp<GraphicBuffer> buffer = std::move(buffer_.buffer());
-#if 0
   buffer->setDetachedBufferHandle(
       DetachedBufferHandle::Create(client_.TakeChannelHandle()));
-#endif
   return buffer;
 }
 

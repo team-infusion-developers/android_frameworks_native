@@ -22,6 +22,7 @@
 
 #include <grallocusage/GrallocUsageConversion.h>
 
+#include <ui/DetachedBufferHandle.h>
 #include <ui/Gralloc2.h>
 #include <ui/GraphicBufferAllocator.h>
 #include <ui/GraphicBufferMapper.h>
@@ -470,8 +471,9 @@ status_t GraphicBuffer::unflatten(
         status_t err = mBufferMapper.importBuffer(handle, uint32_t(width), uint32_t(height),
                 uint32_t(layerCount), format, usage, uint32_t(stride), &importedHandle);
         if (err != NO_ERROR) {
-            width = height = stride = format = layerCount = usage = 0;
-            native_handle_delete(const_cast<native_handle*>(handle));
+            width = height = stride = format = usage_deprecated = 0;
+            layerCount = 0;
+            usage = 0;
             handle = NULL;
             ALOGE("unflatten: registerBuffer failed: %s (%d)", strerror(-err), err);
             return err;
@@ -489,6 +491,24 @@ status_t GraphicBuffer::unflatten(
     count -= numFds;
 
     return NO_ERROR;
+}
+
+bool GraphicBuffer::isDetachedBuffer() const {
+    return mDetachedBufferHandle && mDetachedBufferHandle->isValid();
+}
+
+status_t GraphicBuffer::setDetachedBufferHandle(std::unique_ptr<DetachedBufferHandle> channel) {
+    if (isDetachedBuffer()) {
+        ALOGW("setDetachedBuffer: there is already a BufferHub channel associated with this "
+              "GraphicBuffer. Replacing the old one.");
+    }
+
+    mDetachedBufferHandle = std::move(channel);
+    return NO_ERROR;
+}
+
+std::unique_ptr<DetachedBufferHandle> GraphicBuffer::takeDetachedBufferHandle() {
+    return std::move(mDetachedBufferHandle);
 }
 
 // ---------------------------------------------------------------------------
